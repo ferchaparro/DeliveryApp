@@ -1,6 +1,5 @@
 package itson.mx.deliveryapp.recycler;
 
-import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +15,7 @@ import itson.mx.deliveryapp.R;
  * Created by chapa on 02/10/2015.
  */
 public class ButtonRecycler extends RecyclerView.Adapter<ButtonRecycler.DataObjectHolder> {
-    private ArrayList<Boton> dataset;
+    private ArrayList<Menu> dataset;
 
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder  {
@@ -27,13 +26,13 @@ public class ButtonRecycler extends RecyclerView.Adapter<ButtonRecycler.DataObje
         public DataObjectHolder(View itemView) {
             super(itemView);
             button = (Button) itemView.findViewById(R.id.btn_menu);
-            cv = (CardView) itemView.findViewById(R.id.textView);
+            cv = (CardView) itemView.findViewById(R.id.cardView);
         }
 
     }
 
 
-    public ButtonRecycler(ArrayList<Boton> dataset) {
+    public ButtonRecycler(ArrayList<Menu> dataset) {
         this.dataset = dataset;
     }
 
@@ -52,9 +51,12 @@ public class ButtonRecycler extends RecyclerView.Adapter<ButtonRecycler.DataObje
         holder.button.setText(dataset.get(position).getTexto());
         holder.button.setOnClickListener(dataset.get(position).getOnClickListener());
         holder.button.setBackgroundColor(dataset.get(position).getColor());
+        if(dataset.get(position).getImage()!=null) {
+            holder.button.setCompoundDrawablesWithIntrinsicBounds(dataset.get(position).getImage(), null, null, null);
+        }
     }
 
-    public void addItem(Boton dataObj, int index) {
+    public void addItem(Menu dataObj, int index) {
         dataset.add(index, dataObj);
         notifyItemInserted(index);
     }

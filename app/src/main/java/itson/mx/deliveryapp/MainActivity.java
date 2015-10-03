@@ -1,21 +1,21 @@
 package itson.mx.deliveryapp;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
-import itson.mx.deliveryapp.recycler.Boton;
+import itson.mx.deliveryapp.recycler.Menu;
 import itson.mx.deliveryapp.recycler.ButtonRecycler;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,19 +38,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private ArrayList<Boton> getDataSet() {
-        ArrayList results = new ArrayList<Boton>();
-        for (int index = 0; index < 5; index++) {
-            final int i = index;
-            Boton obj = new Boton();
-            obj.setTexto("Menu"+index);
-            if(index == 0) {
-                obj.setOnClickListener(getOnClickMenu(MenuActivity.class, null));
-            }else{
-                obj.setOnClickListener(getOnClickMenu(null, null));
-            }
-            results.add(index, obj);
-        }
+    private ArrayList<Menu> getDataSet() {
+        ArrayList results = new ArrayList<Menu>();
+        results.add(new Menu("Lunes", Color.rgb(0, 150, 136), getOnClickMenu(MenuActivity.class, null), null));
+        results.add(new Menu("Martes", Color.rgb(255, 87, 34), getOnClickMenu(MenuActivity.class, null), null));
+        results.add(new Menu("Miercoles", Color.rgb(3, 169, 244), getOnClickMenu(MenuActivity.class, null), null));
+        results.add(new Menu("Jueves", Color.rgb(76, 175, 80), getOnClickMenu(MenuActivity.class, null), null));
+        results.add(new Menu("Viernes", Color.rgb(244, 67, 54), getOnClickMenu(MenuActivity.class, null), null));
+        results.add(new Menu("Sabado", Color.rgb(103, 58, 183), getOnClickMenu(MenuActivity.class, null), null));
+
         return results;
     }
 
@@ -60,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(clazz!=null) {
                     Intent intent = new Intent(MainActivity.this, clazz);
+                    intent.putExtra("color", ((android.graphics.drawable.ColorDrawable) v.getBackground()).getColor());
                     if (extras != null) {
                         for (String key : extras.keySet()) {
                             intent.putExtra(key, extras.get(key));
