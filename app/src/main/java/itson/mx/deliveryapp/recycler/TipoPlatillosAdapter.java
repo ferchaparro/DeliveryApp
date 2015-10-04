@@ -32,8 +32,8 @@ public class TipoPlatillosAdapter extends RecyclerView.Adapter<TipoPlatillosAdap
             super(v);
             mTextView = (TextView) v.findViewById(R.id.textView);
             mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_platillo);
-           // cv = (CardView) v.findViewById(R.id.cardview_tipoplatillo);
-            mLayoutManager = new LinearLayoutManager(v.getContext());
+           cv = (CardView) v.findViewById(R.id.cardview_titulo);
+            mLayoutManager = new LinearLayoutManager(v.getContext(), LinearLayoutManager.HORIZONTAL, false);
 
             mRecyclerView.setHasFixedSize(true);
             mRecyclerView.setLayoutManager(mLayoutManager);
@@ -69,7 +69,7 @@ public class TipoPlatillosAdapter extends RecyclerView.Adapter<TipoPlatillosAdap
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.mTextView.setText(mDataset[position]);
-        holder.mTextView.setBackgroundColor(color);
+        holder.cv.setCardBackgroundColor(color);
 
 
 
