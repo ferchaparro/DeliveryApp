@@ -15,9 +15,25 @@
         <LinearLayout
             android:orientation="vertical" android:layout_width="wrap_content"
             android:layout_height="match_parent">
-            <View
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"/>
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="100dp"
+                    android:id="@+id/img_platillo" />
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/progressBar"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+
             <LinearLayout
                 android:orientation="vertical" android:layout_width="wrap_content"
                 android:layout_height="wrap_content">

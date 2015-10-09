@@ -1,5 +1,6 @@
 package itson.mx.deliveryapp.recycler;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import itson.mx.deliveryapp.R;
 public class TipoPlatillosAdapter extends RecyclerView.Adapter<TipoPlatillosAdapter.ViewHolder> {
     private String[] mDataset;
     private int color;
+    private static Context context;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -38,16 +40,14 @@ public class TipoPlatillosAdapter extends RecyclerView.Adapter<TipoPlatillosAdap
             mRecyclerView.setHasFixedSize(true);
             mRecyclerView.setLayoutManager(mLayoutManager);
 
-            String[] dataset = { "uno", "dos", "tres", "cuatro", "cinco", "seis" };
-            mAdapter = new PlatillosAdapter(dataset);
-            mRecyclerView.setAdapter(mAdapter);
 
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public TipoPlatillosAdapter(String[] myDataset, int color) {
+    public TipoPlatillosAdapter(Context context, String[] myDataset, int color) {
         mDataset = myDataset;
+        this.context=context;
         this.color = color;
     }
 
@@ -70,6 +70,20 @@ public class TipoPlatillosAdapter extends RecyclerView.Adapter<TipoPlatillosAdap
         // - replace the contents of the view with that element
         holder.mTextView.setText(mDataset[position]);
         holder.cv.setCardBackgroundColor(color);
+
+        PlatilloDTO[] dataset;
+        switch (position){
+            case 0: PlatilloDTO[] data = { new PlatilloDTO("Lasagna", "http://www.eismann.es/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/1/4/14475.jpg"), new PlatilloDTO("Chimichangas", "http://www.miscoloresysabores.com/wp-content/uploads/2011/09/IMG_1888.jpg"),
+                    new PlatilloDTO("Sandwichon", "http://www.fooderific.com/thumbnails/300x300/463e476b43bf.jpg") };dataset=data;break;
+            case 1: PlatilloDTO[] data1 = { new PlatilloDTO("Ceviche", "http://www.qassimy.com/up/users/qassimy/how_to_make_a_recipe_for_ceviche2.jpg"), new PlatilloDTO("Rollo florentino", "http://www.reynolds.com.mx/wp-content/uploads/2012/08/Pastel-florentino-carne-des.jpg") };dataset=data1;break;
+            case 2: PlatilloDTO[] data2 = { new PlatilloDTO("Frijol", "http://www.laben.mx/wp-content/uploads/2013/04/black-bean-dip-for-web1.jpg"), new PlatilloDTO("Arroz", "http://i.ytimg.com/vi/SbxsGukLdyA/hqdefault.jpg"),
+                    new PlatilloDTO("Ensalada", "http://www.marieldeviaje.com/wp-content/uploads/2015/08/ensalada.jpg"), new PlatilloDTO("Pure de papa", "http://cocinamania.net/wp-content/uploads/2014/07/pure-de-papa.jpg") };dataset=data2;break;
+            default:dataset = new PlatilloDTO[0];
+
+        }
+
+        holder.mAdapter = new PlatillosAdapter(dataset, context);
+        holder.mRecyclerView.setAdapter(holder.mAdapter);
 
 
 

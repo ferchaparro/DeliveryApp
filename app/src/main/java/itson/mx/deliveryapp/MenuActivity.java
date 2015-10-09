@@ -1,5 +1,6 @@
 package itson.mx.deliveryapp;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +21,9 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int color = getIntent().getIntExtra("color", 0);
         getSupportActionBar().setTitle(getIntent().getStringExtra("titulo"));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
         setContentView(R.layout.activiry_menu);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_menu);
 
@@ -30,7 +33,7 @@ public class MenuActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         String[] dataset = { "Platillos regulares", "Especiales", "Guarniciones" };
-        mAdapter = new TipoPlatillosAdapter(dataset, getIntent().getIntExtra("color", 0));
+        mAdapter = new TipoPlatillosAdapter(this, dataset, color);
         mRecyclerView.setAdapter(mAdapter);
     }
 
