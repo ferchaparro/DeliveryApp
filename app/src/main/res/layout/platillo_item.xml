@@ -53,14 +53,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/detalle"
-                        android:id="@+id/btn_megusta"
+                        android:id="@+id/btn_detalles"
                         style="?android:attr/borderlessButtonStyle"/>
 
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/meGusta"
-                        android:id="@+id/btn_detalles"
+                        android:id="@+id/btn_megusta"
                         style="?android:attr/borderlessButtonStyle" />
                 </LinearLayout>
             </LinearLayout>
