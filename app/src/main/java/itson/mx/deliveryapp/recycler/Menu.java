@@ -37,9 +37,7 @@ public class Menu {
         this.onClickListener = onClickListener;
     }
 
-    public int getColor() {
-        return color;
-    }
+    public int getColor() { return color; }
 
     public void setColor(int color) {
         this.color = color;

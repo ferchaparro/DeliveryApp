@@ -82,23 +82,24 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Menu> getDataSet() {
         ArrayList results = new ArrayList<Menu>();
-        results.add(new Menu("Lunes", Color.rgb(0, 150, 136), getOnClickMenu(MenuActivity.class, null), null));
-        results.add(new Menu("Martes", Color.rgb(255, 87, 34), getOnClickMenu(MenuActivity.class, null), null));
-        results.add(new Menu("Miercoles", Color.rgb(3, 169, 244), getOnClickMenu(MenuActivity.class, null), null));
-        results.add(new Menu("Jueves", Color.rgb(76, 175, 80), getOnClickMenu(MenuActivity.class, null), null));
-        results.add(new Menu("Viernes", Color.rgb(244, 67, 54), getOnClickMenu(MenuActivity.class, null), null));
-        results.add(new Menu("Sabado", Color.rgb(103, 58, 183), getOnClickMenu(MenuActivity.class, null), null));
+        results.add(new Menu("Lunes", Color.rgb(0, 150, 136), getOnClickMenu(MenuActivity.class, null, Color.rgb(0, 105, 92)), null));
+        results.add(new Menu("Martes", Color.rgb(255, 87, 34), getOnClickMenu(MenuActivity.class, null, Color.rgb(216, 67, 21)), null));
+        results.add(new Menu("Miercoles", Color.rgb(3, 169, 244), getOnClickMenu(MenuActivity.class, null, Color.rgb(2, 119, 189)), null));
+        results.add(new Menu("Jueves", Color.rgb(76, 175, 80), getOnClickMenu(MenuActivity.class, null, Color.rgb(46, 125, 50)), null));
+        results.add(new Menu("Viernes", Color.rgb(244, 67, 54), getOnClickMenu(MenuActivity.class, null, Color.rgb(198, 40, 40)), null));
+        results.add(new Menu("Sabado", Color.rgb(103, 58, 183), getOnClickMenu(MenuActivity.class, null, Color.rgb(69, 39, 160)), null));
 
         return results;
     }
 
-    private View.OnClickListener getOnClickMenu(final Class clazz, final Map<String, String> extras){
+    private View.OnClickListener getOnClickMenu(final Class clazz, final Map<String, String> extras, final int colorDark){
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(clazz!=null) {
                     Intent intent = new Intent(MainActivity.this, clazz);
                     intent.putExtra("color", ((android.graphics.drawable.ColorDrawable) v.getBackground()).getColor());
+                    intent.putExtra("colorDark", colorDark);
                     intent.putExtra("titulo", ((Button)v).getText());
                     if (extras != null) {
                         for (String key : extras.keySet()) {
