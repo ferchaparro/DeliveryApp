@@ -22,6 +22,7 @@
         <activity
             android:name=".DetalleActivity"
             android:label="@string/app_name" />
+        <service android:name=".service.CheckPlatillosService"/>
     </application>
 <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

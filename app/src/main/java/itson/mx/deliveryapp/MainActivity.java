@@ -21,6 +21,7 @@ import java.util.Map;
 import itson.mx.deliveryapp.overrides.GridLayoutManager;
 import itson.mx.deliveryapp.recycler.Menu;
 import itson.mx.deliveryapp.recycler.ButtonRecycler;
+import itson.mx.deliveryapp.service.CheckPlatillosService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
         progress.setVisibility(View.VISIBLE);
         progress.setIndeterminate(true);
+
+        startService(new Intent(MainActivity.this, CheckPlatillosService.class));
 
         AsyncTask<String, Void, Bitmap> task = new AsyncTask<String, Void, Bitmap>() {
             @Override

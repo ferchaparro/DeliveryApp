@@ -19,19 +19,24 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import itson.mx.deliveryapp.DetalleActivity;
 import itson.mx.deliveryapp.R;
+import itson.mx.deliveryapp.bd.Utils;
+import itson.mx.deliveryapp.pojos.Platillo;
 
 /**
  * Created by chapa on 02/10/2015.
  */
 public class PlatillosAdapter extends RecyclerView.Adapter<PlatillosAdapter.ViewHolder> {
-    private PlatilloDTO[] mDataset;
+    private List<Platillo> mDataset;
     private Context context;
     public static Map<Long, ImageView> cache;
 
@@ -45,6 +50,7 @@ public class PlatillosAdapter extends RecyclerView.Adapter<PlatillosAdapter.View
         ImageView image;
         ProgressBar progress;
         Button btnDetalle;
+        Button btnLike;
         public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.txt_platillo);
@@ -52,11 +58,12 @@ public class PlatillosAdapter extends RecyclerView.Adapter<PlatillosAdapter.View
             image = (ImageView) v.findViewById(R.id.img_platillo);
             progress = (ProgressBar) v.findViewById(R.id.progressBar);
             btnDetalle = (Button) v.findViewById(R.id.btn_detalles);
+            btnLike = (Button) v.findViewById(R.id.btn_megusta);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public PlatillosAdapter(PlatilloDTO[] myDataset, Context context) {
+    public PlatillosAdapter(List<Platillo> myDataset, Context context) {
         mDataset = myDataset; this.context=context;
         if(cache == null){
             cache = new HashMap<>();
@@ -80,23 +87,31 @@ public class PlatillosAdapter extends RecyclerView.Adapter<PlatillosAdapter.View
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset[position].getNombre());
+        holder.mTextView.setText(mDataset.get(position).getNombre());
         holder.progress.setIndeterminate(true);
         holder.btnDetalle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cache.containsKey(mDataset[position].getId())) {
+                if (cache.containsKey(mDataset.get(position).getId())) {
                     Intent intent = new Intent(context, DetalleActivity.class);
-                    intent.putExtra("id", mDataset[position].getId());
-                    intent.putExtra("nombre", mDataset[position].getNombre());
-                    intent.putExtra("descripcion", "Luego se agregara la descripcion.");
+                    intent.putExtra("id", mDataset.get(position).getId());
+                    intent.putExtra("nombre", mDataset.get(position).getNombre());
+                    intent.putExtra("descripcion", mDataset.get(position).getDescripcion());
                     context.startActivity(intent);
-                }else{
+                } else {
                     Toast.makeText(context, "Espere que cargue antes de ver detalle.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        if(!cache.containsKey(mDataset[position].getId())) {
+        holder.btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.insertBd(context, mDataset.get(position).getNombre(), "");
+                List<String> likes = Utils.getLikes(context);
+                Toast.makeText(context, Arrays.toString(likes.toArray()), Toast.LENGTH_SHORT).show();
+            }
+        });
+        if(!cache.containsKey(mDataset.get(position).getId())) {
             holder.progress.setVisibility(View.VISIBLE);
             AsyncTask<String, Void, Bitmap> task = new AsyncTask<String, Void, Bitmap>() {
                 @Override
@@ -116,18 +131,18 @@ public class PlatillosAdapter extends RecyclerView.Adapter<PlatillosAdapter.View
                         Toast.makeText(context, "No se cargo la foto", Toast.LENGTH_SHORT).show();
                     }
                     holder.image.setImageBitmap(bitmap);
-                    cache.put(mDataset[position].getId(), holder.image);
+                    cache.put(mDataset.get(position).getId(), holder.image);
                     holder.progress.setVisibility(View.INVISIBLE);
                 }
             };
             try {
-                task.execute(mDataset[position].getFoto());
+                task.execute(mDataset.get(position).getFoto());
             } catch (Exception e) {
                 e.printStackTrace();
 
             }
         }else{
-            holder.image.setImageBitmap(((BitmapDrawable)cache.get(mDataset[position].getId()).getDrawable()).getBitmap());
+            holder.image.setImageBitmap(((BitmapDrawable)cache.get(mDataset.get(position).getId()).getDrawable()).getBitmap());
             holder.progress.setVisibility(View.INVISIBLE);
         }
     }
@@ -135,6 +150,6 @@ public class PlatillosAdapter extends RecyclerView.Adapter<PlatillosAdapter.View
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
 }
